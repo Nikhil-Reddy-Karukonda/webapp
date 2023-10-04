@@ -3,6 +3,7 @@ require('dotenv').config();
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 const { healthRoutes, assignmentRoutes } = require('./routes');
 
 // Importing Sequelize database connection (instance)
@@ -20,7 +21,8 @@ const PORT = process.env.PORT || 8080;
 app.use(healthRoutes);
 app.use('/v1/assignments', assignmentRoutes);
 
-const filePath = '/opt/users.csv'
+const filePath = path.join(__dirname, '/opt/users.csv');
+// const filePath = '/opt/users.csv'
 processCsv(filePath);
 
 // Sync the database and start the server 
