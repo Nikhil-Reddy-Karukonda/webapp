@@ -4,7 +4,6 @@
 
 # Project Setup
 
-npm init
 npm install
 npm start
 Running Tests - npx mocha tests/*.test.js
