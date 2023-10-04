@@ -10,7 +10,6 @@ const processCsv = async (filePath) => {
         })
         .pipe(csv())
         .on('data', async (row) => {
-            console.log(row)
             processRow(row);
         })
         .on('end', () => {
