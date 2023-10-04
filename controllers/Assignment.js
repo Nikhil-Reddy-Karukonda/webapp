@@ -54,7 +54,6 @@ const getAssignmentById = async (req, res) => {
 
 const validateAssignmentData = (assignmentData) => {
     const { assignment_created, assignment_updated, ...validatedData } = assignmentData;
-    console.log(assignment_created, assignment_updated)
 
     const errors = [];
     if (validatedData.points < 1 || validatedData.points > 100) {
