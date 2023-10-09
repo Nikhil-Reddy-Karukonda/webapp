@@ -82,7 +82,7 @@ systemctl status postgresql
 
 sudo -u postgres psql
 
-\q
+\q test
 
 # Directory should we host our applicaion in debian - /opt
 -- 2 seats do we have to include in the GitHub 'teams' plan
