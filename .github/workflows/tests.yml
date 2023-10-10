@@ -56,6 +56,27 @@ jobs:
           DB_PORT: 5432
           ENV_TYPE: GITHUB_CI
 
+      - name: Echo environment variables
+        run: |
+          echo "PORT=$PORT"
+          echo "DB_DIALECT=$DB_DIALECT"
+          echo "DB_HOST=$DB_HOST"
+          echo "DB_USERNAME=$DB_USERNAME"
+          echo "DB_PASSWORD=$DB_PASSWORD"
+          echo "DB_NAME=$DB_NAME"
+          echo "DB_PORT=$DB_PORT"
+          echo "ENV_TYPE=$ENV_TYPE"
+        env:
+          PORT: 8080
+          DB_DIALECT: postgres
+          DB_HOST: localhost
+          DB_USERNAME: postgres
+          DB_PASSWORD: KNR*masters22
+          DB_NAME: postgres
+          DB_PORT: 5432
+          ENV_TYPE: GITHUB_CI
+
+
       - name: Wait for server to be ready
         run: |
           until nc -z localhost 8080; do
