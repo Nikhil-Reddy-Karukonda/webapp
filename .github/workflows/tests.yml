@@ -43,18 +43,23 @@ jobs:
             sleep 1
           done
 
-      - name: Run health check
-        run: npm start
+      - name: Run health check and Start server in background
+        run: npm start & echo "$!" > server.pid
         env:
-          PORT: ${{ secrets.PORT }}
-          DB_DIALECT: ${{ secrets.DB_DIALECT }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          ENV_TYPE: ${{ secrets.ENV_TYPE }}
+          PORT: 8080
+          DB_DIALECT: postgres
+          DB_HOST: localhost
+          DB_USERNAME: postgres
+          DB_PASSWORD: KNR*masters22
+          DB_NAME: postgres
+          DB_PORT: 5432
+          ENV_TYPE: GITHUB_CI
 
-      - name: Run integration tests
+      - name: Wait for server to be ready
+        run: |
+          until nc -z localhost 8080; do
+            sleep 1
+          done
+
+      - name: Running healthz integration test
         run: npm test
-
