@@ -100,9 +100,6 @@ jobs:
           until nc -z localhost 8080; do
             sleep 1
           done
-          
-      - name: Terminate server
-        run: kill $(cat server.pid)
 
       - name: Running healthz integration test
         run: npm test
