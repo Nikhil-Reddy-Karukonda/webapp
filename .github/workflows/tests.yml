@@ -83,7 +83,7 @@ jobs:
           done
           
       - name: Terminate server
-        run: kill $(cat server.pid)
+        run: kill -9 $(lsof -t -i:8080)
 
       - name: Running healthz integration test
         run: npm test
