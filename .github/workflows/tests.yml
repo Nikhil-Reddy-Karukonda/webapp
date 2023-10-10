@@ -85,3 +85,12 @@ jobs:
 
       - name: Running healthz integration test
         run: npm test
+        env:
+          PORT: 8080
+          DB_DIALECT: postgres
+          DB_HOST: localhost
+          DB_USERNAME: postgres
+          DB_PASSWORD: KNR*masters22
+          DB_NAME: postgres
+          DB_PORT: 5432
+          ENV_TYPE: GITHUB_CI
