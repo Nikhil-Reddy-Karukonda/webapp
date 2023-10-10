@@ -5,7 +5,7 @@ run-name: ${{ github.actor }} is building and testing server
 on:
   pull_request:
     branches:
-      - main
+      - main 
 
 jobs:
   build:
