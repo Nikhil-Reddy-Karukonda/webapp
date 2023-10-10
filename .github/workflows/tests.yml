@@ -96,12 +96,14 @@ jobs:
           DB_PORT: 5432
           ENV_TYPE: GITHUB_CI
 
-
       - name: Wait for server to be ready
         run: |
           until nc -z localhost 8080; do
             sleep 1
           done
+          
+      - name: Terminate server
+        run: kill $(cat server.pid)
 
       - name: Running healthz integration test
         run: npm test
