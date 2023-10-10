@@ -21,8 +21,16 @@ const PORT = process.env.PORT || 8080;
 app.use(healthRoutes);
 app.use('/v1/assignments', assignmentRoutes);
 
-const filePath = path.join(__dirname, '/opt/users.csv');
-// const filePath = '/opt/users.csv'
+let filePath = path.join(__dirname, '/opt/users.csv');
+console.log('ENV_TYPE: ', process.env.ENV_TYPE);
+
+if (process.env.ENV_TYPE === 'DEBIAN_VM') {
+    filePath = '/opt/users.csv'
+}
+else if (process.env.ENV_TYPE === 'GITHUB_CI') {
+    filePath = path.join(__dirname, '/opt/users.csv');
+}
+
 processCsv(filePath);
 
 // Sync the database and start the server 
