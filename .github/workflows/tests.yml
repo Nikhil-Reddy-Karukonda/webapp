@@ -101,9 +101,6 @@ jobs:
           until nc -z localhost 8080; do
             sleep 1
           done
-          
-      - name: Terminate server
-        run: kill -9 $(lsof -t -i:8080)
 
       - name: Running healthz integration test
         run: npm test
