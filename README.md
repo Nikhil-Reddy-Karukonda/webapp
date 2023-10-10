@@ -84,7 +84,6 @@ sudo -u postgres psql
 \q
 
 # Directory should we host our applicaion in debian - /opt
--- 2 seats do we have to include in the GitHub 'teams' plan
 -- GitHub organization - private project - fork - it to personal name space
 -- integration test in github actions
 GitHub Action Workflows - users.csv inside our directory for git CI Workflow actions
