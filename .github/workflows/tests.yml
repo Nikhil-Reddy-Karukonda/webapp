@@ -45,7 +45,7 @@ jobs:
           done
 
       - name: Run health check and Start server in background
-        run: npm start & echo "$!" > server.pid
+        run: npm start &
         env:
           PORT: 8080
           DB_DIALECT: postgres
@@ -81,9 +81,6 @@ jobs:
           until nc -z localhost 8080; do
             sleep 1
           done
-          
-      - name: Terminate server
-        run: kill -9 $(lsof -t -i:8080)
 
       - name: Running healthz integration test
         run: npm test
