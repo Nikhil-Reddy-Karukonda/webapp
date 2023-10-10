@@ -10,6 +10,7 @@ const Assignment = require('./Assignment');
 
 const env = process.env.NODE_ENV || 'development';
 const currentConfig = config[env];
+console.log("current config", currentConfig);
 const db = new Sequelize({ ...currentConfig });
 
 // Initialize models

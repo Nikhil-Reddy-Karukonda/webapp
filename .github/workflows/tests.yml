@@ -1,0 +1,114 @@
+# YAML file to test github actions
+name: Integration test
+run-name: ${{ github.actor }} is building and testing server
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: KNR*masters22
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+  
+  
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - name: Display Node node-version
+        run: node --version
+
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          until nc -z localhost 5432; do
+            sleep 1
+          done
+
+      - name: Run health check and Start server in background
+        run: npm start &
+        env:
+          PORT: 8080
+          DB_DIALECT: postgres
+          DB_HOST: localhost
+          DB_USERNAME: postgres
+          DB_PASSWORD: KNR*masters22
+          DB_NAME: postgres
+          DB_PORT: 5432
+          ENV_TYPE: GITHUB_CI
+
+      - name: Echo environment variables
+        run: |
+          echo "PORT=$PORT"
+          echo "DB_DIALECT=$DB_DIALECT"
+          echo "DB_HOST=$DB_HOST"
+          echo "DB_USERNAME=$DB_USERNAME"
+          echo "DB_PASSWORD=$DB_PASSWORD"
+          echo "DB_NAME=$DB_NAME"
+          echo "DB_PORT=$DB_PORT"
+          echo "ENV_TYPE=$ENV_TYPE"
+        env:
+          PORT: 8080
+          DB_DIALECT: postgres
+          DB_HOST: localhost
+          DB_USERNAME: postgres
+          DB_PASSWORD: KNR*masters22
+          DB_NAME: postgres
+          DB_PORT: 5432
+          ENV_TYPE: GITHUB_CI
+
+      - name: Echo environment variables
+        run: |
+          echo "PORT=$PORT"
+          echo "DB_DIALECT=$DB_DIALECT"
+          echo "DB_HOST=$DB_HOST"
+          echo "DB_USERNAME=$DB_USERNAME"
+          echo "DB_PASSWORD=$DB_PASSWORD"
+          echo "DB_NAME=$DB_NAME"
+          echo "DB_PORT=$DB_PORT"
+          echo "ENV_TYPE=$ENV_TYPE"
+        env:
+          PORT: 8080
+          DB_DIALECT: postgres
+          DB_HOST: localhost
+          DB_USERNAME: postgres
+          DB_PASSWORD: KNR*masters22
+          DB_NAME: postgres
+          DB_PORT: 5432
+          ENV_TYPE: GITHUB_CI
+
+      - name: Wait for server to be ready
+        run: |
+          until nc -z localhost 8080; do
+            sleep 1
+          done
+
+      - name: Running healthz integration test
+        run: npm test
+        env:
+          PORT: 8080
+          DB_DIALECT: postgres
+          DB_HOST: localhost
+          DB_USERNAME: postgres
+          DB_PASSWORD: KNR*masters22
+          DB_NAME: postgres
+          DB_PORT: 5432
+          ENV_TYPE: GITHUB_CI
