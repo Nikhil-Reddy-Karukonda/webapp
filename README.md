@@ -2,9 +2,8 @@
 
 ## Cloud Computing (CSYE 6225)
 
-# Project Setup
+# Project Setup 
 
-npm init
 npm install
 npm start
 Running Tests - npx mocha tests/*.test.js
