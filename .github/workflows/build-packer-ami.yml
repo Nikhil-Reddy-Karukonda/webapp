@@ -31,9 +31,26 @@ jobs:
     - name: Packer Init
       run: |
         packer init .
-    
+
     - name: Zip the webapp
-      run: zip -r webapp.zip .
+      run: zip -r ${{ github.workspace }}/webapp.zip .
+
+    - name: List files in current directory
+      run: ls -la
+
+    - name: Print current working directory
+      run: pwd
+
+    # - name: Zip the webapp
+    #   run: zip -r webapp.zip .
+    - name: Check if webapp.zip exists
+      run: |
+        if [ ! -f ./webapp.zip ]; then
+          echo "webapp.zip does not exist!"
+          exit 1
+        else
+          echo "webapp.zip exists."
+        fi
 
     - name: Build AMI
       env:
