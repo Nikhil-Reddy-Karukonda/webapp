@@ -44,7 +44,7 @@ sudo -u postgres psql -c "alter user $DB_USERNAME with superuser;"
 
 echo "Contents of /home/admin"
 ls -alh /home/admin
-
+ls -alh /opt
 # sudo unzip -o /home/admin/webapp.zip -d /usr/local
 sudo unzip -o /home/admin/webapp.zip -d /usr/local || { echo "Failed to unzip webapp.zip"; exit 1; }
 
