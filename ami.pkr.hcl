@@ -112,7 +112,9 @@ build {
       "sudo mkdir -p /opt",
       "chmod u+w /home/admin",
       "sudo chown admin:admin /opt",
-      "sudo chmod 755 /opt"
+      "sudo chmod 755 /opt",
+      "sudo chown -R admin:admin /usr/local/",
+      "sudo chmod -R 755 /usr/local/"
     ]
   }
 
