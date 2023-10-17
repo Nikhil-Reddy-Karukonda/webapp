@@ -18,6 +18,10 @@ jobs:
       with:
         packer_version: latest
     
+    - name: Packer Init
+      run: |
+        packer init .
+    
     - name: Zip the webapp
       run: zip -r webapp.zip .
 
