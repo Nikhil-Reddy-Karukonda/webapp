@@ -43,13 +43,15 @@ sudo -u postgres psql -c "create user $DB_USERNAME with encrypted password '$DB_
 sudo -u postgres psql -c "alter user $DB_USERNAME with superuser;"
 
 echo "Contents of /home/admin"
-ls -alh /home/admin
-ls -alh /opt
+sudo ls -alh /home/admin
+sudo ls -alh /opt
 # sudo unzip -o /home/admin/webapp.zip -d /usr/local
-sudo unzip -o /home/admin/webapp.zip -d /usr/local || { echo "Failed to unzip webapp.zip"; exit 1; }
+sudo unzip -o /home/admin/webapp.zip -d /usr/local/ || { echo "Failed to unzip webapp.zip"; exit 1; }
 
-echo "Contents of /usr/local after unzip:"
-ls -alh /usr/local
+echo "Contents after unzip:"
+sudo ls -alh /home/admin/
+sudo ls -alh /opt/
+sudo ls -alh /usr/local/
 
 
 if [ $? -ne 0 ]; then
