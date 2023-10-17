@@ -46,7 +46,7 @@ echo "Contents of /home/admin"
 sudo ls -alh /home/admin
 sudo ls -alh /opt
 # sudo unzip -o /home/admin/webapp.zip -d /usr/local
-sudo unzip -o /home/admin/webapp.zip -d /usr/local/ || { echo "Failed to unzip webapp.zip"; exit 1; }
+sudo unzip -o /home/admin/webapp.zip -d /usr/local/webapp || { echo "Failed to unzip webapp.zip"; exit 1; }
 
 echo "Contents after unzip:"
 sudo ls -alh /home/admin/
