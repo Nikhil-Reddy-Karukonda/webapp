@@ -33,6 +33,7 @@ echo "Starting PostgreSQL service..."
 sudo systemctl start postgresql
 sudo systemctl enable postgresql
 
+echo "DB values"
 echo $DB_USERNAME
 echo $DB_PASSWORD
 
@@ -41,9 +42,14 @@ echo "Setting up PostgreSQL user and database..."
 sudo -u postgres psql -c "create user $DB_USERNAME with encrypted password '$DB_PASSWORD';"
 sudo -u postgres psql -c "alter user $DB_USERNAME with superuser;"
 
+echo "Contents of /home/admin"
+ls -alh /home/admin
 
 # sudo unzip -o /home/admin/webapp.zip -d /usr/local
 sudo unzip -o /home/admin/webapp.zip -d /usr/local || { echo "Failed to unzip webapp.zip"; exit 1; }
+
+echo "Contents of /usr/local after unzip:"
+ls -alh /usr/local
 
 
 if [ $? -ne 0 ]; then
@@ -52,11 +58,11 @@ if [ $? -ne 0 ]; then
 fi
 
 sudo ls -R /usr/local
-sudo chmod -R 755 /usr/local/webapp/
+sudo chmod -R 755 /usr/local/
 echo "Who am I?"
 whoami
 
-cp /opt/users.csv /usr/local/webapp/opt/users.csv
+# cp /opt/users.csv /usr/local/webapp/opt/users.csv
 cd /usr/local/webapp || { echo "Directory not found"; exit 1; }
 
 # Create .env file in webapp directory
