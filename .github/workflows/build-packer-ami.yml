@@ -52,5 +52,23 @@ jobs:
         echo "Setting environment variables..."
         export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
         export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        export DB_USERNAME=${{ secrets.DB_USERNAME }}
+        export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+        export DB_DIALECT=${{ secrets.DB_DIALECT }}
+        export DB_HOST=${{ secrets.DB_HOST }}
+        export DB_NAME=${{ secrets.DB_NAME }}
+        export DB_PORT=${{ secrets.DB_PORT }}
+        export ENV_TYPE=${{ secrets.ENV_TYPE }}
+        export PORT=${{ secrets.PORT }}
         echo "Starting Packer build with debug mode..."
-        packer build -debug ami.pkr.hcl
+        packer build -debug \
+        -var "DB_USERNAME=${{ secrets.DB_USERNAME }}" \
+        -var "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" \
+        -var "DB_HOST=${{ secrets.DB_HOST }}" \
+        -var "DB_DIALECT=${{ secrets.DB_DIALECT }}" \
+        -var "DB_PORT=${{ secrets.DB_PORT }}" \
+        -var "DB_NAME=${{ secrets.DB_NAME }}" \
+        -var "PORT=${{ secrets.PORT }}" \
+        -var "ENV_TYPE=${{ secrets.ENV_TYPE }}" \
+        ami.pkr.hcl
+        # packer build -debug ami.pkr.hcl

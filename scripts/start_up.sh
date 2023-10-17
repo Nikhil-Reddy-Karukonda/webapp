@@ -56,6 +56,8 @@ cd /usr/local/webapp || { echo "Directory not found"; exit 1; }
 
 # Create .env file in webapp directory
 echo "Creating .env file in webapp directory..."
+echo $DB_USERNAME
+echo $DB_PASSWORD
 
 sudo bash -c 'cat > /usr/local/webapp/.env <<EOF
 DB_USERNAME=${DB_USERNAME}

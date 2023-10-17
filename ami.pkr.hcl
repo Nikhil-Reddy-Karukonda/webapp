@@ -37,6 +37,47 @@ variable "ami_users_list" {
   default = ["316221934553"]
 }
 
+variable "DB_USERNAME" {
+  description = "The database username"
+  type        = string
+}
+
+variable "DB_PASSWORD" {
+  description = "The database password"
+  type        = string
+}
+
+variable "DB_HOST" {
+  description = "The database host"
+  type        = string
+}
+
+variable "DB_DIALECT" {
+  description = "The database dialect"
+  type        = string
+}
+
+variable "DB_PORT" {
+  description = "The database port"
+  type        = string
+}
+
+variable "DB_NAME" {
+  description = "The database name"
+  type        = string
+}
+
+variable "PORT" {
+  description = "Port number for the application"
+  type        = string
+}
+
+variable "ENV_TYPE" {
+  description = "Environment type"
+  type        = string
+}
+
+
 # https://www.packer.io/plugins/builders/amazon/ebs
 source "amazon-ebs" "my-ami" {
   region          = "${var.aws_region}"
@@ -97,7 +138,15 @@ build {
     environment_vars = [
       "DEBIAN_FRONTEND=noninteractive",
       "CHECKPOINT_DISABLE=1",
-      "aws_region=${var.aws_region}"
+      "aws_region=${var.aws_region}",
+      "DB_USERNAME=${var.DB_USERNAME}",
+      "DB_PASSWORD=${var.DB_PASSWORD}",
+      "DB_HOST=${var.DB_HOST}",
+      "DB_DIALECT=${var.DB_DIALECT}",
+      "DB_PORT=${var.DB_PORT}",
+      "DB_NAME=${var.DB_NAME}",
+      "PORT=${var.PORT}",
+      "ENV_TYPE=${var.ENV_TYPE}"
     ]
     scripts = ["./scripts/start_up.sh"]
   }
@@ -107,4 +156,3 @@ build {
     strip_path = true
   }
 }
-
