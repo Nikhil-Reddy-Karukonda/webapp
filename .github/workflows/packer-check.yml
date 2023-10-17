@@ -1,0 +1,52 @@
+name: Packer Validation - Packer CI
+run-name: ${{ github.actor }} is running packer checks
+
+on:
+  pull_request:
+    branches:
+      - main
+      - app-packer
+    paths:
+      - '**.pkr.hcl'
+      # - '**.pkrvars.hcl'
+
+jobs:
+  packer-fmt-and-validate:
+    name: Packer Format and Validate
+    runs-on: ubuntu-latest
+    # container:
+    #   image: debian:12
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Packer
+      uses: hashicorp/setup-packer@v1.0.3
+      with:
+        packer_version: 1.7.8
+
+    # - name: Install Packer
+    #   run: |
+    #     wget https://releases.hashicorp.com/packer/1.9.4/packer_1.9.4_linux_amd64.zip
+    #     unzip packer_1.9.4_linux_amd64.zip
+    #     sudo mv packer /usr/local/bin/
+    #     packer --version
+      
+    - name: Packer Init
+      run: |
+        packer init .
+        
+    - name: Check Packer Format
+      run: |
+        if ! packer fmt -check . ; then
+          echo "Packer format check failed! Run 'packer fmt .' locally to fix format issues."
+          exit 1
+        fi
+        
+    - name: Validate Packer Templates
+      run: |
+        if ! packer validate . ; then
+          echo "Packer validation failed! Please correct the issues and try again."
+          exit 1
+        fi
+    
