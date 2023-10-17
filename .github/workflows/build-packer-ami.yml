@@ -37,5 +37,6 @@ jobs:
         DB_PORT: ${{ secrets.DB_PORT }}
         ENV_TYPE: ${{ secrets.ENV_TYPE }}
         PORT: ${{ secrets.PORT }}
+        PACKER_LOG: 1
       run: |
-        packer build ami.pkr.hcl
+        packer build -debug ami.pkr.hcl
