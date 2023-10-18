@@ -6,6 +6,9 @@ on:
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -15,9 +18,9 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: KNR*masters22
-          POSTGRES_DB: postgres
+          POSTGRES_USER: ${{ secrets.DB_USERNAME }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
@@ -46,14 +49,14 @@ jobs:
       - name: Run health check and Start server in background
         run: npm start &
         env:
-          PORT: 8080
-          DB_DIALECT: postgres
-          DB_HOST: localhost
-          DB_USERNAME: postgres
-          DB_PASSWORD: KNR*masters22
-          DB_NAME: postgres
-          DB_PORT: 5432
-          ENV_TYPE: GITHUB_CI
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_DIALECT: ${{ secrets.DB_DIALECT }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          PORT: ${{ secrets.PORT }}
+          ENV_TYPE: ${{ secrets.ENV_TYPE }}
 
       - name: Echo environment variables
         run: |
@@ -66,34 +69,14 @@ jobs:
           echo "DB_PORT=$DB_PORT"
           echo "ENV_TYPE=$ENV_TYPE"
         env:
-          PORT: 8080
-          DB_DIALECT: postgres
-          DB_HOST: localhost
-          DB_USERNAME: postgres
-          DB_PASSWORD: KNR*masters22
-          DB_NAME: postgres
-          DB_PORT: 5432
-          ENV_TYPE: GITHUB_CI
-
-      - name: Echo environment variables
-        run: |
-          echo "PORT=$PORT"
-          echo "DB_DIALECT=$DB_DIALECT"
-          echo "DB_HOST=$DB_HOST"
-          echo "DB_USERNAME=$DB_USERNAME"
-          echo "DB_PASSWORD=$DB_PASSWORD"
-          echo "DB_NAME=$DB_NAME"
-          echo "DB_PORT=$DB_PORT"
-          echo "ENV_TYPE=$ENV_TYPE"
-        env:
-          PORT: 8080
-          DB_DIALECT: postgres
-          DB_HOST: localhost
-          DB_USERNAME: postgres
-          DB_PASSWORD: KNR*masters22
-          DB_NAME: postgres
-          DB_PORT: 5432
-          ENV_TYPE: GITHUB_CI
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_DIALECT: ${{ secrets.DB_DIALECT }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          PORT: ${{ secrets.PORT }}
+          ENV_TYPE: ${{ secrets.ENV_TYPE }}
 
       - name: Wait for server to be ready
         run: |
@@ -104,11 +87,11 @@ jobs:
       - name: Running healthz integration test
         run: npm test
         env:
-          PORT: 8080
-          DB_DIALECT: postgres
-          DB_HOST: localhost
-          DB_USERNAME: postgres
-          DB_PASSWORD: KNR*masters22
-          DB_NAME: postgres
-          DB_PORT: 5432
-          ENV_TYPE: GITHUB_CI
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_DIALECT: ${{ secrets.DB_DIALECT }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          PORT: ${{ secrets.PORT }}
+          ENV_TYPE: ${{ secrets.ENV_TYPE }}
