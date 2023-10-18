@@ -44,9 +44,26 @@ jobs:
         fi
         
     - name: Validate Packer Templates
+      env:
+        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_DIALECT: ${{ secrets.DB_DIALECT }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        PORT: ${{ secrets.PORT }}
+        ENV_TYPE: ${{ secrets.ENV_TYPE }}
       run: |
-        if ! packer validate . ; then
+        if ! packer validate \
+          -var "DB_USERNAME=${DB_USERNAME}" \
+          -var "DB_PASSWORD=${DB_PASSWORD}" \
+          -var "DB_HOST=${DB_HOST}" \
+          -var "DB_DIALECT=${DB_DIALECT}" \
+          -var "DB_PORT=${DB_PORT}" \
+          -var "DB_NAME=${DB_NAME}" \
+          -var "PORT=${PORT}" \
+          -var "ENV_TYPE=${ENV_TYPE}" \
+          . ; then
           echo "Packer validation failed! Please correct the issues and try again."
           exit 1
         fi
-    
