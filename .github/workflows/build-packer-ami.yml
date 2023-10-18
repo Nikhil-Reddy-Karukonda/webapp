@@ -1,4 +1,6 @@
 name: Build Packer AMI
+run-name: ${{ github.actor }} is running packer build
+
 on:
   push:
     branches:
@@ -35,14 +37,6 @@ jobs:
     - name: Zip the webapp
       run: zip -r ${{ github.workspace }}/webapp.zip .
 
-    - name: List files in current directory
-      run: ls -la
-
-    - name: Print current working directory
-      run: pwd
-
-    # - name: Zip the webapp
-    #   run: zip -r webapp.zip .
     - name: Check if webapp.zip exists
       run: |
         if [ ! -f ./webapp.zip ]; then
@@ -88,4 +82,3 @@ jobs:
         -var "PORT=${{ secrets.PORT }}" \
         -var "ENV_TYPE=${{ secrets.ENV_TYPE }}" \
         ami.pkr.hcl
-        # packer build -debug ami.pkr.hcl

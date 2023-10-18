@@ -33,19 +33,11 @@ echo "Starting PostgreSQL service..."
 sudo systemctl start postgresql
 sudo systemctl enable postgresql
 
-echo "DB values"
-echo $DB_USERNAME
-echo $DB_PASSWORD
-
 # Setting up PostgreSQL user and database
 echo "Setting up PostgreSQL user and database..."
 sudo -u postgres psql -c "create user $DB_USERNAME with encrypted password '$DB_PASSWORD';"
 sudo -u postgres psql -c "alter user $DB_USERNAME with superuser;"
 
-echo "Contents of /home/admin"
-sudo ls -alh /home/admin
-sudo ls -alh /opt
-# sudo unzip -o /home/admin/webapp.zip -d /usr/local
 sudo unzip -o /home/admin/webapp.zip -d /usr/local/webapp || { echo "Failed to unzip webapp.zip"; exit 1; }
 
 echo "Contents after unzip:"

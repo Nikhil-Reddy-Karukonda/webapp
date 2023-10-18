@@ -2,6 +2,17 @@
 
 ## Cloud Computing (CSYE 6225)
 
+packer init ami.pkr.hcl
+packer validate ami.pkr.hcl
+packer build ami.pkr.hcl
+PACKER_LOG=1 packer build ami.pkr.hcl
+
+chmod 400 /path/my-key-pair.pem
+ssh -i "/path/my-key-pair.pem" admin@[instance-public-ip-or-dns]
+default directory: pwd
+/home/admin
+
+
 # Project Setup 
 
 npm install
@@ -82,16 +93,3 @@ systemctl status postgresql
 sudo -u postgres psql
 
 \q
-
-# Directory should we host our applicaion in debian - /opt
--- GitHub organization - private project - fork - it to personal name space
--- integration test in github actions
-GitHub Action Workflows - users.csv inside our directory for git CI Workflow actions
-It should live with your test code and be copied to the right location for your tests to run
-write actual integration tests - You cannot access that locally from your machine
-integration test in github actions runner
-
-yaml file is supposed to be in org Repo - to run the GitHub workflows
-script in yaml file, the job will include run npm test
-while running test for API endpoints, it searches for /opt/users.csv file
-parse this file in GitHub action
