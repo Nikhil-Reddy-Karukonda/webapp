@@ -3,10 +3,14 @@ run-name: ${{ github.actor }} is running packer build
 
 on:
   push:
-    branches:
-      - main
-      - app-packer
-
+    # branches:
+    #   - main
+    #   - app-packer
+  workflow_run:
+    workflows: ["Integration test"]
+    # branches: [main]
+    types:
+      - completed
 jobs:
   build_ami:
     runs-on: ubuntu-latest

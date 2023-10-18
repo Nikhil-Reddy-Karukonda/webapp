@@ -34,7 +34,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
-      - name: Display Node node-version
+      - name: Display node-version
         run: node --version
 
       - name: Install dependencies

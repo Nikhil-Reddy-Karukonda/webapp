@@ -34,7 +34,7 @@ variable "ami_region_list" {
 
 variable "ami_users_list" {
   type    = list(string)
-  default = ["316221934553"]
+  default = ["316221934553", "363111581664"]
 }
 
 variable "DB_USERNAME" {
