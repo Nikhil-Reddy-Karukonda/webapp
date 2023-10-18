@@ -70,7 +70,7 @@ cd /usr/local/webapp || { echo "Directory not found"; exit 1; }
 # Create .env file in webapp directory
 echo "Creating .env file in webapp directory..."
 
-sudo bash -c 'cat > /usr/local/webapp/.env <<EOF
+sudo bash -c "cat > /usr/local/webapp/.env <<EOF
 DB_USERNAME=${DB_USERNAME}
 DB_PASSWORD=${DB_PASSWORD}
 DB_HOST=${DB_HOST}
@@ -79,7 +79,7 @@ DB_PORT=${DB_PORT}
 DB_NAME=${DB_NAME}
 PORT=${PORT}
 ENV_TYPE=${ENV_TYPE}
-EOF'
+EOF"
 echo ".env file created successfully."
 
 sudo cat /usr/local/webapp/.env
