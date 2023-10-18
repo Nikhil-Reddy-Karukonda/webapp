@@ -58,26 +58,6 @@ jobs:
           PORT: ${{ secrets.PORT }}
           ENV_TYPE: ${{ secrets.ENV_TYPE }}
 
-      - name: Echo environment variables
-        run: |
-          echo "PORT=$PORT"
-          echo "DB_DIALECT=$DB_DIALECT"
-          echo "DB_HOST=$DB_HOST"
-          echo "DB_USERNAME=$DB_USERNAME"
-          echo "DB_PASSWORD=$DB_PASSWORD"
-          echo "DB_NAME=$DB_NAME"
-          echo "DB_PORT=$DB_PORT"
-          echo "ENV_TYPE=$ENV_TYPE"
-        env:
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_DIALECT: ${{ secrets.DB_DIALECT }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          PORT: ${{ secrets.PORT }}
-          ENV_TYPE: ${{ secrets.ENV_TYPE }}
-
       - name: Wait for server to be ready
         run: |
           until nc -z localhost 8080; do
