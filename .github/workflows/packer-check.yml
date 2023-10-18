@@ -35,6 +35,9 @@ jobs:
     - name: Packer Init
       run: |
         packer init .
+    
+    - name: Zip the webapp
+      run: zip -r ${{ github.workspace }}/webapp.zip .
         
     - name: Check Packer Format
       run: |
