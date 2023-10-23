@@ -5,10 +5,8 @@ on:
   push:
     branches:
       - main
-    #   - app-packer
   workflow_run:
     workflows: ["Integration test"]
-    # branches: [main]
     types:
       - completed
 jobs:

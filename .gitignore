@@ -8,6 +8,7 @@ lerna-debug.log*
 .pnpm-debug.log*
 package-lock.json
 *.zip
+.idea/
 
 # Packer artifacts
 manifest.json
