@@ -3,8 +3,8 @@ run-name: ${{ github.actor }} is running packer build
 
 on:
   push:
-    # branches:
-    # - main
+    branches:
+      - main
     #   - app-packer
   workflow_run:
     workflows: ["Integration test"]
