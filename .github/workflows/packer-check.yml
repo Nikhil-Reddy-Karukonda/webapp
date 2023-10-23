@@ -5,9 +5,8 @@ on:
   pull_request:
     branches:
       - main
-      - app-packer
-    paths:
-      - '**.pkr.hcl'
+    # paths:
+    #   - '**.pkr.hcl'
 
 jobs:
   packer-fmt-and-validate:
