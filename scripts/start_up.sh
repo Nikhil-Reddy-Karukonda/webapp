@@ -50,13 +50,13 @@ sudo chown -R webapp_user:webapp_user /home/webapp_user
 # Restrict directory permissions to be more secure (remove execute permissions for others)
 sudo chmod -R 755 /home/webapp_user
 
-cd /home/webapp_user/webapp/webapp || { echo "Directory not found"; exit 1; }
+cd /home/webapp_user/webapp || { echo "Directory not found"; exit 1; }
 # cp /opt/users.csv /home/webapp_user/webapp/opt/users.csv
 
 # Create .env file in webapp directory
 echo "Creating .env file in webapp directory..."
 
-sudo bash -c "cat > /home/webapp_user/webapp/webapp/.env <<EOF
+sudo bash -c "cat > /home/webapp_user/webapp/.env <<EOF
 DB_USERNAME=${DB_USERNAME}
 DB_PASSWORD=${DB_PASSWORD}
 DB_HOST=${DB_HOST}
@@ -68,7 +68,7 @@ ENV_TYPE=${ENV_TYPE}
 EOF"
 echo ".env file created successfully."
 
-sudo cat /home/webapp_user/webapp/webapp/.env
+sudo cat /home/webapp_user/webapp/.env
  
 [ -d node_modules ] && rm -rf node_modules
 # Build the app
@@ -86,8 +86,8 @@ Wants=cloud-init.target
  
 [Service]
 User=webapp_user
-WorkingDirectory=/home/webapp_user/webapp/webapp
-EnvironmentFile=/home/webapp_user/webapp/webapp/.env
+WorkingDirectory=/home/webapp_user/webapp
+EnvironmentFile=/home/webapp_user/webapp/.env
 ExecStart=/usr/bin/npm start
 Restart=on-failure
 RestartSec=10
