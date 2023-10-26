@@ -68,6 +68,7 @@ ENV_TYPE=${ENV_TYPE}
 EOF"
 echo ".env file created successfully."
 
+
 sudo cat /home/webapp_user/webapp/.env
  
 [ -d node_modules ] && rm -rf node_modules
