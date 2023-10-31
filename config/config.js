@@ -12,4 +12,16 @@ const config = {
   }
 }
 
+
+const useSSL = process.env.ENV_TYPE === "pulumi";
+
+if (useSSL) {
+  config.development.dialectOptions = {
+    "ssl": {
+      "require": true,
+      "rejectUnauthorized": false
+    }
+  };
+}
+
 module.exports = config;

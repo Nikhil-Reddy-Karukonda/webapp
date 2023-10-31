@@ -23,46 +23,40 @@ npm -v
 # Install zip unzip package
 sudo apt-get install zip unzip
 
-# Update package list and install PostgreSQL
-echo "Updating package list and installing PostgreSQL..."
-sudo apt update
-sudo apt-get install -y postgresql postgresql-contrib
+# Check if Git is installed and uninstall it
+if dpkg -l | grep git; then
+    echo "Git is already installed. Uninstalling..."
+    sudo apt-get remove --purge git -y
+fi
 
-# Start PostgreSQL service and enable it to start on boot
-echo "Starting PostgreSQL service..."
-sudo systemctl start postgresql
-sudo systemctl enable postgresql
+# Create a new user for the Node.js application
+sudo useradd -m -s /bin/bash webapp_user
 
-# Setting up PostgreSQL user and database
-echo "Setting up PostgreSQL user and database..."
-sudo -u postgres psql -c "create user $DB_USERNAME with encrypted password '$DB_PASSWORD';"
-sudo -u postgres psql -c "alter user $DB_USERNAME with superuser;"
-
-sudo unzip -o /home/admin/webapp.zip -d /usr/local/webapp || { echo "Failed to unzip webapp.zip"; exit 1; }
-
-echo "Contents after unzip:"
-sudo ls -alh /home/admin/
-sudo ls -alh /opt/
-sudo ls -alh /usr/local/
-
+sudo mkdir /home/webapp_user/webapp
+sudo unzip -o /home/admin/webapp.zip -d /home/webapp_user/webapp || { echo "Failed to unzip webapp.zip"; exit 1; }
 
 if [ $? -ne 0 ]; then
     echo "Error unzipping the file. Exiting."
     exit 1
 fi
 
-sudo ls -R /usr/local
-sudo chmod -R 755 /usr/local/
-echo "Who am I?"
-whoami
+echo "Contents after unzip:"
+sudo ls -alh /home/admin/
+sudo ls -alh /opt/
 
-# cp /opt/users.csv /usr/local/webapp/opt/users.csv
-cd /usr/local/webapp || { echo "Directory not found"; exit 1; }
+# Change Ownership and Set Permissions
+sudo chown -R webapp_user:webapp_user /home/webapp_user
+ 
+# Restrict directory permissions to be more secure (remove execute permissions for others)
+sudo chmod -R 755 /home/webapp_user
+
+cd /home/webapp_user/webapp || { echo "Directory not found"; exit 1; }
+# cp /opt/users.csv /home/webapp_user/webapp/opt/users.csv
 
 # Create .env file in webapp directory
 echo "Creating .env file in webapp directory..."
 
-sudo bash -c "cat > /usr/local/webapp/.env <<EOF
+sudo bash -c "cat > /home/webapp_user/webapp/.env <<EOF
 DB_USERNAME=${DB_USERNAME}
 DB_PASSWORD=${DB_PASSWORD}
 DB_HOST=${DB_HOST}
@@ -74,18 +68,42 @@ ENV_TYPE=${ENV_TYPE}
 EOF"
 echo ".env file created successfully."
 
-sudo cat /usr/local/webapp/.env
 
-echo "Waiting for PostgreSQL to start..."
-for i in {1..30}; do
-    if sudo -u postgres psql -c '\l'; then
-        break
-    fi
-    echo "PostgreSQL not ready, waiting..."
-    sleep 10
-done
-
+sudo cat /home/webapp_user/webapp/.env
+ 
 [ -d node_modules ] && rm -rf node_modules
 # Build the app
 sudo npm install || { echo "Error installing npm packages. Exiting."; exit 1; }
 sleep 2
+
+
+# Create the systemd service file with sudo
+sudo bash -c "cat <<EOF > /etc/systemd/system/csye6225_webapp.service
+[Unit]
+Description=Node.js Web App
+Documentation=https://your-application-documentation-url
+After=network.target
+Wants=cloud-init.target
+ 
+[Service]
+User=webapp_user
+WorkingDirectory=/home/webapp_user/webapp
+EnvironmentFile=/home/webapp_user/webapp/.env
+ExecStart=/usr/bin/npm start
+Restart=on-failure
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=csye6225_webapp
+ 
+[Install]
+WantedBy=multi-user.target
+EOF"
+ 
+# Reload the systemd configuration
+sudo systemctl daemon-reload
+ 
+# Enable and start the service
+sudo systemctl enable csye6225_webapp
+sudo systemctl start csye6225_webapp
+sudo systemctl restart csye6225_webapp
