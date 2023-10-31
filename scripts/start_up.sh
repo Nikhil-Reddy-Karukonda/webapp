@@ -68,6 +68,8 @@ ENV_TYPE=${ENV_TYPE}
 EOF"
 echo ".env file created successfully."
 
+# Change ownership of the .env file to webapp_user
+sudo chown webapp_user:webapp_user /home/webapp_user/webapp/.env
 
 sudo cat /home/webapp_user/webapp/.env
  

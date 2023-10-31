@@ -2,9 +2,11 @@
 require('dotenv').config();
 
 const app = require('./app');
+const path = require('path');
 
 // Importing Sequelize database connection (instance)
 const { db } = require('./models/model');
+const processCsv = require('./helpers/userImporter');
 
 const PORT = process.env.PORT || 8080;
 
@@ -15,9 +17,19 @@ const PORT = process.env.PORT || 8080;
 // Adds or removes columns as necessary without dropping tables. 
 // Useful for updating the database schema after changes to models
 
+let filePath = path.join(__dirname, '/opt/users.csv');
+console.log('ENV_TYPE: ', process.env.ENV_TYPE);
+
+if (process.env.ENV_TYPE === 'DEBIAN_VM') {
+    filePath = '/opt/users.csv'
+}
+else if (process.env.ENV_TYPE === 'GITHUB_CI') {
+    filePath = path.join(__dirname, '/opt/users.csv');
+}
 
 db.sync({ force: false, alter: true })
     .then(() => {
+        processCsv(filePath);
         app.listen(PORT, () => {
             console.log(`Web Server running on http://localhost:${PORT}`);
         });

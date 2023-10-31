@@ -53,9 +53,56 @@ const getAssignmentById = async (req, res) => {
 };
 
 const validateAssignmentData = (assignmentData) => {
-    const { assignment_created, assignment_updated, ...validatedData } = assignmentData;
+
+    const expectedKeys = ['name', 'points', 'num_of_attempts', 'deadline'];
+    const dataKeys = Object.keys(assignmentData);
 
     const errors = [];
+
+    // Check for unwanted keys
+    dataKeys.forEach(key => {
+        if (!expectedKeys.includes(key)) {
+            errors.push(`Invalid key "${key}" in payload.`);
+        }
+    });
+
+    // Name validation
+    if (typeof assignmentData.name !== 'string') {
+        errors.push('Name must be a string.');
+    }
+
+    // Points validation
+    if (typeof assignmentData.points !== 'number' || !Number.isInteger(assignmentData.points)) {
+        errors.push('Points must be an integer.');
+    }
+
+    // Num of attempts validation
+    if (typeof assignmentData.num_of_attempts !== 'number' || !Number.isInteger(assignmentData.num_of_attempts)) {
+        errors.push('num_of_attempts must be an integer.');
+    }
+    // Regex to match YYYY-MM-DDTHH:mm:ss.sssZ format
+    const dateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
+
+    // Check if the deadline input is a string and matches expected format
+    if (typeof assignmentData.deadline !== 'string' || !dateRegex.test(assignmentData.deadline)) {
+        errors.push('Deadline must be provided in a valid date format (YYYY-MM-DDTHH:mm:ss.sssZ).');
+    } else {
+        const deadlineDate = new Date(assignmentData.deadline);
+
+        // Check if the provided string could be turned into a valid date
+        if (!(deadlineDate instanceof Date && !isNaN(deadlineDate))) {
+            errors.push('Deadline must be a valid date.');
+        } else {
+            // If it's a valid date, check if it's in the future
+            if (deadlineDate <= new Date()) {
+                errors.push('Deadline must be in the future.');
+            }
+        }
+    }
+
+
+    const { assignment_created, assignment_updated, ...validatedData } = assignmentData;
+
     if (validatedData.points < 1 || validatedData.points > 100) {
         errors.push('Assignment points must be between 1 and 100.');
     }
