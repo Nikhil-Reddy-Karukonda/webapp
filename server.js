@@ -31,10 +31,12 @@ db.sync({ force: false, alter: true })
     .then(() => {
         processCsv(filePath);
         app.listen(PORT, () => {
+            logger.info(`Web server running on http://localhost:${PORT}`);
             console.log(`Web Server running on http://localhost:${PORT}`);
         });
     })
     .catch((error) => {
+        log.error('Error syncing database:', error);
         console.error('Error syncing database:', error);
         process.exit(1);
     });
