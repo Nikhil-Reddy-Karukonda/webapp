@@ -1,4 +1,5 @@
 const { db } = require('../models/model');
+const logger = require('../logger');
 
 const hasPayload = (req) => req.body && Object.keys(req.body).length !== 0;
 const hasQueryParameters = (req) => req.query && Object.keys(req.query).length !== 0;

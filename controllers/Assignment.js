@@ -1,5 +1,6 @@
 const { Assignment } = require('../models/model');
 const { ValidationError } = require('sequelize');
+const logger = require('../logger');
 
 // const statsDClient = require('../metrics');
 
