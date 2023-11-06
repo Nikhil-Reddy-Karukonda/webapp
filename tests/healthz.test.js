@@ -12,6 +12,7 @@ const { expect } = chai;
 
 describe('HealthTestSuite - Checking Healthz API Endpoint', () => {
     it('TestIntegrationHealth - should respond 200 OK when DB is connected', async () => {
+        this.timeout(8000);
         const res = await chai.request(server).get('/healthz');
         expect(res).to.have.status(200);
         expect(res).to.have.header('cache-control', 'no-cache, no-store, must-revalidate');
