@@ -7,6 +7,7 @@ const path = require('path');
 // Importing Sequelize database connection (instance)
 const { db } = require('./models/model');
 const processCsv = require('./helpers/userImporter');
+const logger = require('./logger');
 
 const PORT = process.env.PORT || 8080;
 
