@@ -125,10 +125,17 @@ build {
     destination = "/opt/users.csv"
     source      = "opt/users.csv"
   }
+
+  provisioner "file" {
+    destination = "/opt/cloudwatch-config.json"
+    source      = "scripts/cloudwatch-config.json"
+  }
+
   provisioner "file" {
     destination = "/opt/start_up.sh"
     source      = "scripts/start_up.sh"
   }
+
   provisioner "shell" {
     inline = [
       "sudo chmod +x /opt/start_up.sh"

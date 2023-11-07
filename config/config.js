@@ -8,7 +8,8 @@ const config = {
     "database": process.env.DB_NAME,
     "host": process.env.DB_HOST,
     "dialect": process.env.DB_DIALECT,
-    "port": parseInt(process.env.DB_PORT, 10)
+    "port": parseInt(process.env.DB_PORT, 10),
+    "logging": process.env.ENABLE_DB_LOG === "true"
   }
 }
 
