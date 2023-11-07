@@ -120,7 +120,8 @@ Wants=network-online.target
 Type=simple
 # User=webapp_user
 User=root
-ExecStart=/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/cloudwatch-config.json
+
+ExecStart=/usr/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/cloudwatch-config.json
 Restart=on-failure
 RestartSec=10
 StandardOutput=syslog
