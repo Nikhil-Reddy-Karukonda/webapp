@@ -5,10 +5,7 @@ on:
   push:
     branches:
       - main
-  # workflow_run:
-  #   workflows: ["Integration test"]
-  #   types:
-  #     - completed
+
 jobs:
   build_ami:
     # name: Integration Test and Packer AMI Build
