@@ -141,7 +141,7 @@ sudo systemctl restart csye6225_webapp
 
 
 
-wget https://amazoncloudwatch-agent.s3.amazonaws.com/debian/amd64/latest/amazon-cloudwatch-agent.deb
+sudo wget https://amazoncloudwatch-agent.s3.amazonaws.com/debian/amd64/latest/amazon-cloudwatch-agent.deb
 
 # wget https://amazoncloudwatch-agent-${aws_region}.s3.${aws_region}.amazonaws.com/debian/amd64/latest/amazon-cloudwatch-agent.deb
 
