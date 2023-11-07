@@ -109,27 +109,27 @@ WantedBy=multi-user.target
 EOF"
 
 # Create the systemd service file with sudo for CloudWatch agent 
-sudo bash -c "cat <<EOF > /etc/systemd/system/amazon-cloudwatch-agent.service
-[Unit]
-Description=Amazon CloudWatch Agent
-Documentation=https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Install-CloudWatch-Agent.html
-After=network-online.target
-Wants=network-online.target
+# sudo bash -c "cat <<EOF > /etc/systemd/system/amazon-cloudwatch-agent.service
+# [Unit]
+# Description=Amazon CloudWatch Agent
+# Documentation=https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Install-CloudWatch-Agent.html
+# After=network-online.target
+# Wants=network-online.target
  
-[Service]
-Type=simple
-# User=webapp_user
-User=root
-ExecStart=/usr/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/cloudwatch-config.json
-Restart=on-failure
-RestartSec=10
-StandardOutput=syslog
-StandardError=syslog
-SyslogIdentifier=amazon-cloudwatch-agent
+# [Service]
+# Type=simple
+# # User=webapp_user
+# User=root
+# ExecStart=/usr/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/cloudwatch-config.json
+# Restart=on-failure
+# RestartSec=10
+# StandardOutput=syslog
+# StandardError=syslog
+# SyslogIdentifier=amazon-cloudwatch-agent
  
-[Install]
-WantedBy=multi-user.target
-EOF"
+# [Install]
+# WantedBy=multi-user.target
+# EOF"
  
 # Reload the systemd configuration
 sudo systemctl daemon-reload
@@ -142,8 +142,6 @@ sudo systemctl restart csye6225_webapp
 
 
 sudo wget https://amazoncloudwatch-agent.s3.amazonaws.com/debian/amd64/latest/amazon-cloudwatch-agent.deb
-
-# wget https://amazoncloudwatch-agent-${aws_region}.s3.${aws_region}.amazonaws.com/debian/amd64/latest/amazon-cloudwatch-agent.deb
 
 sudo dpkg -i -E ./amazon-cloudwatch-agent.deb
 sudo apt-get install -f
