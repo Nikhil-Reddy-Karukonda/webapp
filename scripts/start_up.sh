@@ -120,7 +120,7 @@ Wants=network-online.target
 Type=simple
 # User=webapp_user
 User=root
-ExecStart=/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/cloudwatch-config.json
+ExecStart=/usr/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/cloudwatch-config.json
 Restart=on-failure
 RestartSec=10
 StandardOutput=syslog
@@ -141,7 +141,7 @@ sudo systemctl restart csye6225_webapp
 
 
 
-wget https://amazoncloudwatch-agent-us-east-1.s3.us-east-1.amazonaws.com/debian/amd64/latest/amazon-cloudwatch-agent.deb
+wget https://amazoncloudwatch-agent.s3.amazonaws.com/debian/amd64/latest/amazon-cloudwatch-agent.deb
 
 # wget https://amazoncloudwatch-agent-${aws_region}.s3.${aws_region}.amazonaws.com/debian/amd64/latest/amazon-cloudwatch-agent.deb
 
