@@ -83,7 +83,6 @@ sudo cat /home/webapp_user/webapp/.env
 sudo npm install || { echo "Error installing npm packages. Exiting."; exit 1; }
 sleep 4
 
-# sudo mv scripts/cloudwatch-config.json /opt/cloudwatch-config.json
 
 # Create the systemd service file with sudo
 sudo bash -c "cat <<EOF > /etc/systemd/system/csye6225_webapp.service
@@ -107,29 +106,6 @@ SyslogIdentifier=csye6225_webapp
 [Install]
 WantedBy=multi-user.target
 EOF"
-
-# Create the systemd service file with sudo for CloudWatch agent 
-# sudo bash -c "cat <<EOF > /etc/systemd/system/amazon-cloudwatch-agent.service
-# [Unit]
-# Description=Amazon CloudWatch Agent
-# Documentation=https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Install-CloudWatch-Agent.html
-# After=network-online.target
-# Wants=network-online.target
- 
-# [Service]
-# Type=simple
-# # User=webapp_user
-# User=root
-# ExecStart=/usr/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/cloudwatch-config.json
-# Restart=on-failure
-# RestartSec=10
-# StandardOutput=syslog
-# StandardError=syslog
-# SyslogIdentifier=amazon-cloudwatch-agent
- 
-# [Install]
-# WantedBy=multi-user.target
-# EOF"
  
 # Reload the systemd configuration
 sudo systemctl daemon-reload
