@@ -2,8 +2,6 @@ const { Assignment } = require('../models/model');
 const { ValidationError } = require('sequelize');
 const logger = require('../logger');
 
-// const statsDClient = require('../metrics');
-
 const hasPayload = (req) => req.body && Object.keys(req.body).length !== 0;
 const hasQueryParameters = (req) => req.query && Object.keys(req.query).length !== 0;
 
@@ -127,8 +125,6 @@ const validateAssignmentData = (assignmentData) => {
 };
 
 const createAssignment = async (req, res) => {
-    // const tags = { method: 'POST', path: `${req.baseUrl}` };
-    // statsDClient.increment(`api.${req.method}.${tags.path}`, 1, tags);
 
     logger.debug("Accessed createAssignment()");
     const { validatedData, errors } = validateAssignmentData(req.body);
