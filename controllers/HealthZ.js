@@ -7,7 +7,7 @@ const hasQueryParameters = (req) => req.query && Object.keys(req.query).length !
 const statsDClient = require('../metrics');
 
 const checkHealth = async (req, res) => {
-    const tags = { method: 'GET', path: `${req.baseUrl}` };
+    const tags = { method: 'GET', path: `${req.originalUrl}` };
     statsDClient.increment(`api.${req.method}.${tags.path}`, 1, tags);
     logger.debug(`Accessed /healthz endpoint`)
     

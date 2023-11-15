@@ -19,7 +19,6 @@ const PORT = process.env.PORT || 8080;
 // Useful for updating the database schema after changes to models
 
 let filePath = path.join(__dirname, '/opt/users.csv');
-console.log('ENV_TYPE: ', process.env.ENV_TYPE);
 
 if (process.env.ENV_TYPE === 'DEBIAN_VM') {
     filePath = '/opt/users.csv'

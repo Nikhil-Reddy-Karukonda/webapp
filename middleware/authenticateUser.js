@@ -5,8 +5,11 @@ const statsDClient = require('../metrics');
 const logger = require('../logger');
 
 const authenticateUser = async (req, res, next) => {
-    
-    const tags = { method: `${req.method}`, path: `${req.baseUrl}` };
+
+    logger.debug(`Accessed authenticateUser()`);
+    const sanitizedPath = req.originalUrl.split(/[?#]/)[0];
+    const tags = { method: `${req.method}`, path: sanitizedPath };
+    // const tags = { method: `${req.method}`, path: `${req.baseUrl}` };
     statsDClient.increment(`api.${req.method}.${tags.path}`, 1, tags);
 
     try {
