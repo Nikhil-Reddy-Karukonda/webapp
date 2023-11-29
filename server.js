@@ -36,7 +36,7 @@ db.sync({ force: false, alter: true })
         });
     })
     .catch((error) => {
-        log.error('Error syncing database:', error);
+        logger.error('Error syncing database:', error);
         console.error('Error syncing database:', error);
         process.exit(1);
     });
