@@ -1,10 +1,14 @@
+// Loading environment variables from .env file
+require('dotenv').config();
+
 const express = require('express');
 const { authenticateUser } = require('../middleware/authenticateUser');
 const { getAssignments,
     getAssignmentById,
     createAssignment,
     updateAssignment,
-    deleteAssignment } = require('../controllers/Assignment');
+    deleteAssignment,
+    submitAssignment } = require('../controllers/Assignment');
 
 const router = express.Router();
 const logger = require('../logger');
@@ -20,6 +24,7 @@ router.get('/:id', authenticateUser, getAssignmentById);
 router.post('/', authenticateUser, createAssignment);
 router.put('/:id', authenticateUser, updateAssignment);
 router.delete('/:id', authenticateUser, deleteAssignment);
+router.post('/:id/submission', authenticateUser, submitAssignment);
 
 // Middleware to handle unsupported methods for assignment routes
 router.use((req, res, next) => {
