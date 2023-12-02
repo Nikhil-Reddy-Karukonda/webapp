@@ -266,15 +266,15 @@ const submitAssignment = async (req, res) => {
     const savePath = path.join(rootPath, fileName);
 
     // Validate the submission URL
-    if (!submission_url || typeof submission_url !== 'string') {
-        logger.error('Invalid submission URL provided');
-        return res.status(400).json({ error: 'Submission URL is required and must be a string.' });
-    }
+    // if (!submission_url || typeof submission_url !== 'string') {
+    //     logger.error('Invalid submission URL provided');
+    //     return res.status(400).json({ error: 'Submission URL is required and must be a string.' });
+    // }
 
-    if (!submission_url.endsWith('.zip')) {
-        logger.error('Invalid submission URL: URL must end with .zip');
-        return res.status(400).json({ error: 'Invalid submission URL: URL must end with .zip' });
-    }
+    // if (!submission_url.endsWith('.zip')) {
+    //     logger.error('Invalid submission URL: URL must end with .zip');
+    //     return res.status(400).json({ error: 'Invalid submission URL: URL must end with .zip' });
+    // }
 
     if (!validateAssignmentId(assignmentId)) {
         logger.error(`Invalid UUID format for assignment ID: ${assignmentId}`);
@@ -306,7 +306,7 @@ const submitAssignment = async (req, res) => {
             const errorMessage = 'Assignment deadline has passed.';
             snsMessage.status = 'DEADLINE_PASSED';
             snsMessage.message = errorMessage;
-            publishToSNS(snsMessage);
+            publishToSNS(sns, snsMessage);
             logger.warn(`Assignment deadline has passed for assignment: ${assignmentId}`);
             return res.status(403).json({ error: 'Assignment deadline has passed.' });
         }
@@ -327,7 +327,7 @@ const submitAssignment = async (req, res) => {
             const errorMessage = 'Maximum number of attempts reached.';
             snsMessage.status = 'MAX_ATTEMPTS';
             snsMessage.message = errorMessage;
-            publishToSNS(snsMessage);
+            publishToSNS(sns, snsMessage);
             logger.warn(`Maximum number of attempts reached for assignment: ${assignmentId}`);
             return res.status(403).json({ error: 'Maximum number of attempts reached.' });
         }
@@ -353,7 +353,7 @@ const submitAssignment = async (req, res) => {
 
         snsMessage.status = 'SUCCESS';
         snsMessage.message = 'Submission created successfully.';
-        await publishToSNS(snsMessage);
+        await publishToSNS(sns, snsMessage);
 
         logger.info(`Submission created successfully for assignment: ${assignmentId}`);
         res.status(201).json(submission);
@@ -364,7 +364,7 @@ const submitAssignment = async (req, res) => {
 };
 
 
-const publishToSNS = async (message) => {
+const publishToSNS = async (sns, message) => {
     const params = {
         Message: JSON.stringify(message),
         TopicArn: process.env.SNS_ARN
