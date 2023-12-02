@@ -7,6 +7,7 @@ const config = require('../config/config');
 
 const Account = require('./Account');
 const Assignment = require('./Assignment');
+const Submission = require('./Submission'); 
 
 const env = process.env.NODE_ENV || 'development';
 const currentConfig = config[env];
@@ -17,9 +18,17 @@ const db = new Sequelize({ ...currentConfig });
 // Sequelize database connection (instance)
 Account.initModel(db);
 Assignment.initModel(db);
+Submission.initModel(db); 
 
 // Define associations
 Account.hasMany(Assignment, { foreignKey: 'accountId', as: 'assignments' });
 Assignment.belongsTo(Account, { foreignKey: 'accountId', as: 'account' });
 
-module.exports = { db, Account, Assignment }
+// Assignment.hasMany(Submission, { foreignKey: 'assignment_id', as: 'submissions', onDelete: 'CASCADE' });
+Assignment.hasMany(Submission, { foreignKey: 'assignment_id', as: 'submissions' });
+Submission.belongsTo(Assignment, { foreignKey: 'assignment_id', as: 'assignment' });
+
+Account.hasMany(Submission, { foreignKey: 'accountId', as: 'submissions' });
+Submission.belongsTo(Account, { foreignKey: 'accountId', as: 'account' }); 
+
+module.exports = { db, Account, Assignment, Submission}
