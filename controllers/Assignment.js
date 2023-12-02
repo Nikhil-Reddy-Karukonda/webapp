@@ -6,6 +6,9 @@ AWS.config.update({
     // Credentials are obtained from the IAM role in this case
 });
 
+// Loading environment variables from .env file
+require('dotenv').config();
+
 const { Assignment, Submission } = require('../models/model');
 const { ValidationError } = require('sequelize');
 const logger = require('../logger');
@@ -362,17 +365,23 @@ const submitAssignment = async (req, res) => {
 };
 
 const publishToSNS = async (message) => {
-    let sns = new AWS.SNS();
     const params = {
         Message: JSON.stringify(message),
         TopicArn: process.env.SNS_ARN
     };
 
     try {
+        let sns = new AWS.SNS();
+        console.log(params);
+        logger.info(params);
+        logger.info(AWS);
+        logger.info(sns);
+        console.log(sns);
         const data = await sns.publish(params).promise();
         logger.info(`Message published to SNS topic: ${data.MessageId}`);
     } catch (err) {
-        logger.error(`Error publishing to SNS: ${err.message}`);
+        console.log(err);
+        logger.error(`Error publishing to SNS: ${err}`);
     }
 };
 
