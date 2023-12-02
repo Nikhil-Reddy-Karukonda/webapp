@@ -6,8 +6,6 @@ AWS.config.update({
     // Credentials are obtained from the IAM role in this case
 });
 
-const sns = new AWS.SNS();
-
 const { Assignment, Submission } = require('../models/model');
 const { ValidationError } = require('sequelize');
 const logger = require('../logger');
@@ -306,7 +304,7 @@ const submitAssignment = async (req, res) => {
             const errorMessage = 'Assignment deadline has passed.';
             snsMessage.status = 'DEADLINE_PASSED';
             snsMessage.message = errorMessage;
-            publishToSNS(sns, snsMessage);
+            publishToSNS(snsMessage);
             logger.warn(`Assignment deadline has passed for assignment: ${assignmentId}`);
             return res.status(403).json({ error: 'Assignment deadline has passed.' });
         }
@@ -327,7 +325,7 @@ const submitAssignment = async (req, res) => {
             const errorMessage = 'Maximum number of attempts reached.';
             snsMessage.status = 'MAX_ATTEMPTS';
             snsMessage.message = errorMessage;
-            publishToSNS(sns, snsMessage);
+            publishToSNS(snsMessage);
             logger.warn(`Maximum number of attempts reached for assignment: ${assignmentId}`);
             return res.status(403).json({ error: 'Maximum number of attempts reached.' });
         }
@@ -353,7 +351,7 @@ const submitAssignment = async (req, res) => {
 
         snsMessage.status = 'SUCCESS';
         snsMessage.message = 'Submission created successfully.';
-        await publishToSNS(sns, snsMessage);
+        await publishToSNS(snsMessage);
 
         logger.info(`Submission created successfully for assignment: ${assignmentId}`);
         res.status(201).json(submission);
@@ -363,8 +361,8 @@ const submitAssignment = async (req, res) => {
     }
 };
 
-
-const publishToSNS = async (sns, message) => {
+const publishToSNS = async (message) => {
+    let sns = new AWS.SNS();
     const params = {
         Message: JSON.stringify(message),
         TopicArn: process.env.SNS_ARN
