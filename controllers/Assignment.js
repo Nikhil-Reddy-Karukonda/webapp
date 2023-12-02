@@ -6,6 +6,8 @@ AWS.config.update({
     // Credentials are obtained from the IAM role in this case
 });
 
+const sns = new AWS.SNS();
+
 const { Assignment, Submission } = require('../models/model');
 const { ValidationError } = require('sequelize');
 const logger = require('../logger');
