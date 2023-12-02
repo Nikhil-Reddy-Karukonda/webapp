@@ -287,13 +287,25 @@ const submitAssignment = async (req, res) => {
             return res.status(404).json({ error: 'Assignment not found.' });
         }
 
+        const snsMessage = {
+            assignmentId: assignmentId,
+            assignmentName: assignment.name,
+            email: req.account.email, 
+            submissionCount: 0, 
+            submissionUrl: submission_url, 
+            assignment_creator: assignment.accountId, 
+            submission_id: '',
+            status: '',
+            message: ''
+        }
+
         // Check for deadline and attempt limits
         if (new Date() > new Date(assignment.deadline)) {
             const errorMessage = 'Assignment deadline has passed.';
-            logger.warn(`Assignment deadline has passed for assignment: ${assignmentId}`);
-            snsMessage.status = '403';
+            snsMessage.status = 'DEADLINE_PASSED';
             snsMessage.message = errorMessage;
             publishToSNS(snsMessage);
+            logger.warn(`Assignment deadline has passed for assignment: ${assignmentId}`);
             return res.status(403).json({ error: 'Assignment deadline has passed.' });
         }
 
@@ -307,21 +319,11 @@ const submitAssignment = async (req, res) => {
             }
         });
 
-        const snsMessage = {
-            submission_id: '',
-            assignmentId: assignmentId,
-            submissionUrl: submission_url,
-            assignmentName: assignment.name,
-            email: req.account.email,
-            submissionCount: submissionsCount,
-            assignment_creator: assignment.accountId,
-            status: '',
-            message: ''
-        };
+        snsMessage.submissionCount = submissionsCount;
 
         if (submissionsCount >= assignment.num_of_attempts) {
             const errorMessage = 'Maximum number of attempts reached.';
-            snsMessage.status = '403';
+            snsMessage.status = 'MAX_ATTEMPTS';
             snsMessage.message = errorMessage;
             publishToSNS(snsMessage);
             logger.warn(`Maximum number of attempts reached for assignment: ${assignmentId}`);
@@ -337,16 +339,17 @@ const submitAssignment = async (req, res) => {
             submission_updated: new Date()
         });
 
-        try {
-            await downloadAndSaveZip(submission_url, savePath);
-            logger.info(`File downloaded successfully to ${savePath}`);
-        } catch (err) {
-            logger.error(`Error downloading file: ${err.message}`);
-            return res.status(500).json({ error: `Error downloading file: ${err.message}` });
-        }
-
-        snsMessage.status = '201';
         snsMessage.submission_id = submission.id;
+
+        // try {
+        //     await downloadAndSaveZip(submission_url, savePath);
+        //     logger.info(`File downloaded successfully to ${savePath}`);
+        // } catch (err) {
+        //     logger.error(`Error downloading file: ${err.message}`);
+        //     return res.status(500).json({ error: `Error downloading file: ${err.message}` });
+        // }
+
+        snsMessage.status = 'SUCCESS';
         snsMessage.message = 'Submission created successfully.';
         await publishToSNS(snsMessage);
 
@@ -370,7 +373,6 @@ const publishToSNS = async (message) => {
         logger.info(`Message published to SNS topic: ${data.MessageId}`);
     } catch (err) {
         logger.error(`Error publishing to SNS: ${err.message}`);
-        // Optionally throw the error or handle it as per your application's logic
     }
 };
 
