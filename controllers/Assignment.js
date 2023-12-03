@@ -9,12 +9,15 @@ AWS.config.update({
 // Loading environment variables from .env file
 require('dotenv').config();
 
+const sns = new AWS.SNS();
+
+
 const { Assignment, Submission } = require('../models/model');
 const { ValidationError } = require('sequelize');
 const logger = require('../logger');
 const path = require('path');
 
-const { downloadAndSaveZip } = require('../helpers/downloadAndSaveZip');
+// const { downloadAndSaveZip } = require('../helpers/downloadAndSaveZip');
 
 const hasPayload = (req) => req.body && Object.keys(req.body).length !== 0;
 const hasQueryParameters = (req) => req.query && Object.keys(req.query).length !== 0;
@@ -262,21 +265,6 @@ const submitAssignment = async (req, res) => {
     const assignmentId = req.params.id;
     const { submission_url } = req.body;
 
-    const rootPath = path.join(__dirname, '..');
-    const fileName = `submission_${assignmentId}_${Date.now()}.zip`;
-    const savePath = path.join(rootPath, fileName);
-
-    // Validate the submission URL
-    // if (!submission_url || typeof submission_url !== 'string') {
-    //     logger.error('Invalid submission URL provided');
-    //     return res.status(400).json({ error: 'Submission URL is required and must be a string.' });
-    // }
-
-    // if (!submission_url.endsWith('.zip')) {
-    //     logger.error('Invalid submission URL: URL must end with .zip');
-    //     return res.status(400).json({ error: 'Invalid submission URL: URL must end with .zip' });
-    // }
-
     if (!validateAssignmentId(assignmentId)) {
         logger.error(`Invalid UUID format for assignment ID: ${assignmentId}`);
         return res.status(400).json({ error: 'Invalid UUID format.' });
@@ -344,26 +332,10 @@ const submitAssignment = async (req, res) => {
 
         snsMessage.submission_id = submission.id;
 
-        // try {
-        //     await downloadAndSaveZip(submission_url, savePath);
-        //     logger.info(`File downloaded successfully to ${savePath}`);
-        // } catch (err) {
-        //     logger.error(`Error downloading file: ${err.message}`);
-        //     return res.status(500).json({ error: `Error downloading file: ${err.message}` });
-        // }
-
         snsMessage.status = 'SUCCESS';
         snsMessage.message = 'Submission created successfully.';
-        // await publishToSNS(snsMessage);
-        const params = {
-            Message: JSON.stringify(message),
-            TopicArn: process.env.SNS_ARN
-        };
-        logger.info(`Params: ${params}`);
-        let sns = new AWS.SNS();
-        const data = await sns.publish(params).promise();
         logger.info(process.env.SNS_ARN);
-        logger.info(`Message published to SNS topic: ${data.MessageId}`);
+        await publishToSNS(snsMessage);
         logger.info(`Submission created successfully for assignment: ${assignmentId}`);
         res.status(201).json(submission);
     } catch (err) {
@@ -382,7 +354,6 @@ const publishToSNS = async (message) => {
 
     try {
         logger.info(`SNS`);
-        let sns = new AWS.SNS();
         const data = await sns.publish(params).promise();
         logger.info(`Message published to SNS topic: ${data.MessageId}`);
     } catch (err) {
