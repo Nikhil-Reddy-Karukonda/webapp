@@ -354,8 +354,16 @@ const submitAssignment = async (req, res) => {
 
         snsMessage.status = 'SUCCESS';
         snsMessage.message = 'Submission created successfully.';
-        await publishToSNS(snsMessage);
+        // await publishToSNS(snsMessage);
+        const params = {
+            Message: JSON.stringify(message),
+            TopicArn: process.env.SNS_ARN
+        };
+        logger.info(`Params: ${params}`);
+        let sns = new AWS.SNS();
+        const data = await sns.publish(params).promise();
         logger.info(process.env.SNS_ARN);
+        logger.info(`Message published to SNS topic: ${data.MessageId}`);
         logger.info(`Submission created successfully for assignment: ${assignmentId}`);
         res.status(201).json(submission);
     } catch (err) {
@@ -375,7 +383,7 @@ const publishToSNS = async (message) => {
     try {
         logger.info(`SNS`);
         let sns = new AWS.SNS();
-        // const data = await sns.publish(params).promise();
+        const data = await sns.publish(params).promise();
         logger.info(`Message published to SNS topic: ${data.MessageId}`);
     } catch (err) {
         logger.error(`Error publishing to SNS: ${err}`);
