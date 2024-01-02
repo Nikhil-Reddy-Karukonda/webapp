@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(healthRoutes);
-app.use('/v2/assignments', assignmentRoutes);
+app.use('/v1/assignments', assignmentRoutes);
 
 console.log('ENV_TYPE: ', process.env.ENV_TYPE);
 
