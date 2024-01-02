@@ -61,13 +61,13 @@ In the `ami.pkr.hcl` file, the following default values are set for key variable
 **ami_users_list** - ["dev_aws_account_id","demo_aws_account_id"]
 
 ### Features
-- **Cloud-Native NodeJS Backend**: Secure, efficient handling of requests, Infrastructure as Code (IaC) using Pulumi, Serverless architecture for efficient resource management
-- **Enhanced Security**: Configured Security Groups for Load Balancer, EC2, and RDS with SSL/TLS encryption via AWS Certificate Manager, passwords are hashed using BCrypt algorithm
-- **DNS Management**: Streamlined web app access with Route53 for DNS setup, including A, NS, and TXT records.
-- **High Availability**: Deployed across multiple Availability Zones (AZs) using Pulumi IAC, ensuring 99.99% uptime.
-- **Auto-Scaling**: Dynamic resource management with auto-scaling groups and CloudWatch CPU utilization alarms.
-- **CI/CD Workflow**: EC2 Automation with GitHub Actions & HashiCorp Packer, **Integration**: GitHub Actions with HashiCorp Packer for custom AMIs, **Automation**: EC2 app auto-startup via systemD; configures web apps, DB servers, autorun in `/etc/systemd/system`, **Scaling**: Consistent Auto Scaling Group refreshes with updated AMIs.
-- **Reliable File Delivery System**: Reliable file delivery system for assignment submissions, automating GitHub release downloads to S3 via Lambda and SNS triggers, with streamlined user notifications and DynamoDB for enhanced tracking and auditability
+- :cloud: **Cloud-Native NodeJS Backend**: Secure, efficient handling of requests, Infrastructure as Code (IaC) using Pulumi, Serverless architecture for efficient resource management
+- :lock: **Enhanced Security**: Configured Security Groups for Load Balancer, EC2, and RDS with SSL/TLS encryption via AWS Certificate Manager, passwords are hashed using BCrypt algorithm
+- :globe_with_meridians: **DNS Management**: Streamlined web app access with Route53 for DNS setup, including A, NS, and TXT records.
+- :repeat: **High Availability**: Deployed across multiple Availability Zones (AZs) using Pulumi IAC, ensuring 99.99% uptime.
+- :chart_with_upwards_trend: **Auto-Scaling**: Dynamic resource management with auto-scaling groups and CloudWatch CPU utilization alarms.
+- :hammer_and_wrench: **CI/CD Workflow**: EC2 Automation with GitHub Actions & HashiCorp Packer, **Integration**: GitHub Actions with HashiCorp Packer for custom AMIs, **Automation**: EC2 app auto-startup via systemD; configures web apps, DB servers, autorun in `/etc/systemd/system`, **Scaling**: Consistent Auto Scaling Group refreshes with updated AMIs.
+- :file_folder: **Reliable File Delivery System**: Reliable file delivery system for assignment submissions, automating GitHub release downloads to S3 via Lambda and SNS triggers, with streamlined user notifications and DynamoDB for enhanced tracking and auditability
 
 ## Web Application Features and Testing Instructions
 
@@ -82,11 +82,11 @@ In the `ami.pkr.hcl` file, the following default values are set for key variable
 
 ## Submission Features
 ![Submission](https://img.shields.io/badge/Submission-orange)
-1. **POST Requests**: Users can make POST requests for submission.
-2. **Multiple Submissions**: Users can submit multiple times per assignment based on retries configuration.
-3. **Retries Limit**: After exceeding the number of attempts, requests will be rejected.
-4. **Due Date Enforcement**: Submissions are rejected if the assignment due date has passed.
-5. **Notification**: Submits URL and user info (e.g., email address) to the SNS topic.
+### :airplane: **POST Requests**: Users can make POST requests for submission.
+### :page_facing_up: **Multiple Submissions**: Users can submit multiple times per assignment based on retries configuration.
+### :no_entry_sign: **Retries Limit**: After exceeding the number of attempts, requests will be rejected.
+### :calendar: **Due Date Enforcement**: Submissions are rejected if the assignment due date has passed.
+### :bell: **Notification**: Submits URL and user info (e.g., email address) to the SNS topic.
 
 ## Health Check RESTful API
 
