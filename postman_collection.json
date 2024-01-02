@@ -1,0 +1,273 @@
+{
+	"info": {
+		"_postman_id": "c02bb494-2845-4acc-b494-5f74a49dda94",
+		"name": "Debian 12",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8378638"
+	},
+	"item": [
+		{
+			"name": "GET ALL assignments",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "<password>",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "<email_id>",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{base-url}}/{{assignment-uri}}",
+					"protocol": "http",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"{{assignment-uri}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST request",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "<password>",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "<email_id>",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"name\": \"Assignment1\",\n        \"points\": 9,\n        \"num_of_attempts\": 10,\n        \"deadline\": \"2024-08-29T09:12:33.001Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{base-url}}/{{assignment-uri}}",
+					"protocol": "http",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"{{assignment-uri}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET request",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "<password>",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "<email_id>",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{base-url}}/{{assignment-uri}}/<assignment_id>",
+					"protocol": "http",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"{{assignment-uri}}",
+						"<assignment_id>"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT request",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "<password>",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "<email_id>",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"name\": \"Assigment8\",\n        \"points\": 7,\n        \"num_of_attempts\": 98,\n        \"deadline\": \"2025-08-29T09:12:33.001Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{base-url}}/{{assignment-uri}}/<assignment_id>",
+					"protocol": "http",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"{{assignment-uri}}",
+						"<assignment_id>"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE request",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "<password>",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "<email_id>",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{base-url}}/{{assignment-uri}}/<assignment_id>",
+					"protocol": "http",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"{{assignment-uri}}",
+						"<assignment_id>"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Healthz",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{base-url}}/healthz",
+					"protocol": "http",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"healthz"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "submitAssignment",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base-url",
+			"value": "demo.nikhilkarukonda.me",
+			"type": "default"
+		},
+		{
+			"key": "assignment-uri",
+			"value": "v1/assignments",
+			"type": "default"
+		},
+		{
+			"key": "port",
+			"value": "8080",
+			"type": "default"
+		}
+	]
+}
