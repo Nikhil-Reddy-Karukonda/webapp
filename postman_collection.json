@@ -69,8 +69,8 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{base-url}}/{{assignment-uri}}",
-					"protocol": "http",
+					"raw": "https://{{base-url}}/{{assignment-uri}}",
+					"protocol": "https",
 					"host": [
 						"{{base-url}}"
 					],
@@ -102,8 +102,8 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{base-url}}/{{assignment-uri}}/<assignment_id>",
-					"protocol": "http",
+					"raw": "https://{{base-url}}/{{assignment-uri}}/<assignment_id>",
+					"protocol": "https",
 					"host": [
 						"{{base-url}}"
 					],
@@ -145,8 +145,8 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{base-url}}/{{assignment-uri}}/<assignment_id>",
-					"protocol": "http",
+					"raw": "https://{{base-url}}/{{assignment-uri}}/<assignment_id>",
+					"protocol": "https",
 					"host": [
 						"{{base-url}}"
 					],
@@ -179,8 +179,8 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://{{base-url}}/{{assignment-uri}}/<assignment_id>",
-					"protocol": "http",
+					"raw": "https://{{base-url}}/{{assignment-uri}}/<assignment_id>",
+					"protocol": "https",
 					"host": [
 						"{{base-url}}"
 					],
@@ -212,8 +212,8 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{base-url}}/healthz",
-					"protocol": "http",
+					"raw": "https://{{base-url}}/healthz",
+					"protocol": "https",
 					"host": [
 						"{{base-url}}"
 					],
@@ -227,8 +227,44 @@
 		{
 			"name": "submitAssignment",
 			"request": {
-				"method": "GET",
-				"header": []
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "<password>",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "<email_id>",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"submission_url\": \"https://github.com/tparikh/myrepo/archive/refs/tags/v1.0.0.zip\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{base-url}}/{{assignment-uri}}/b480079d-b570-4dfe-b535-76b90e86724d/submission",
+					"protocol": "https",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"{{assignment-uri}}",
+						"<assignment_id>",
+						"submission"
+					]
+				}
 			},
 			"response": []
 		}
