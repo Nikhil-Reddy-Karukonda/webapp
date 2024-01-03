@@ -21,6 +21,7 @@ Before building and deploying the application, ensure you have the following pre
 
 - AWS Account and CLI setup, Debian 12 OS
 - Node.js and npm installed
+- PostgreSQL installed
 
 ### Installation
 
@@ -101,15 +102,18 @@ In the `ami.pkr.hcl` file, the following default values are set for key variable
 1. **Database Connection**: Ensures the application's connection to the database.
 2. **Downstream API Calls**: Verifies the application's dependency on other APIs and their availability.
 
-## Implementation
+## API Endpoints and Testing
 ![Implementation](https://img.shields.io/badge/Implementation-orange)
-- Implemented a `/healthz` endpoint for health checks.
+- Implemented a `/healthz` [GET] endpoint for health checks.
 - Conducted integration tests to ensure reliability.
-
-## Testing
 ![Testing](https://img.shields.io/badge/Testing-red)
 - Regular testing of the `/healthz` endpoint to verify application connectivity and downstream API functionality.
-
+- [GET] /v1/assignments -- GET All assignments
+- [POST] /v1/assignments
+- [PUT] /v1/assignments/:id
+- [GET] /v1/assignments/:id
+- [DELETE] /v1/assignments/:id
+- [POST] /v1/assignments/:id/submission -- submit assignment
 
 ## Useful Commands
 
