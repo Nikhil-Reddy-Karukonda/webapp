@@ -14,7 +14,7 @@ variable "aws_region" {
 
 variable "source_ami" {
   type    = string
-  default = "ami-06db4d78cb1d3bbf9"
+  default = "debian_12_ami_id"
 }
 
 variable "ssh_username" {
@@ -24,7 +24,7 @@ variable "ssh_username" {
 
 variable "subnet_id" {
   type    = string
-  default = "subnet-03f8b7e250575d707"
+  default = "subnet_id_default_vpc"
 }
 
 variable "ami_region_list" {
@@ -34,7 +34,7 @@ variable "ami_region_list" {
 
 variable "ami_users_list" {
   type    = list(string)
-  default = ["316221934553", "363111581664"]
+  default = ["dev_aws_account_id", "demo_aws_account_id"]
 }
 
 variable "DB_USERNAME" {
