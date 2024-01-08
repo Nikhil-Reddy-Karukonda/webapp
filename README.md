@@ -11,8 +11,8 @@ The Assignments Tracker is an application designed for streamlined assignment su
 - Web Application: [GitHub - Webapp](https://github.com/Nikhil-Reddy-Karukonda/webapp)
 - IAC Pulumi: [GitHub - IAC Pulumi](https://github.com/Nikhil-Reddy-Karukonda/iac-pulumi)
 - Serverless: [GitHub - Serverless](https://github.com/Nikhil-Reddy-Karukonda/serverless-fork)
-
-![Assignment Tracker](project.png)
+  
+<img src="project.png" alt="Assignment Tracker" height="500" width="500"/>
 
 ## Project Setup
 
@@ -183,6 +183,28 @@ This CI/CD setup ensures rigorous testing and reliable deployment of your web ap
 - [GET] /v1/assignments/:id
 - [DELETE] /v1/assignments/:id
 - [POST] /v1/assignments/:id/submission -- submit assignment
+
+## Application Logging & Metrics AMI Updates 📊
+
+Integrate CloudWatch for logging and metrics in your AMI.
+
+## CloudWatch Agent Setup 🔄
+
+- **Update Packer Template**: Include CloudWatch Agent installation.
+- **Auto-Start Configuration**: Ensure CloudWatch Agent starts automatically on EC2 launch.
+
+## Logging and Metrics 📈
+
+- **Application Logs**: Configure to send log data to CloudWatch.
+- **API Usage Metrics**: Track and send metrics on API usage to CloudWatch.
+- **Custom Metrics**: Implement custom metrics for API call counts.
+- **Metrics Retrieval**: Use StatsD for custom metrics collection.
+
+## Implementation Steps 🛠️
+
+1. **Update AMI**: Modify Packer template to install and configure CloudWatch Agent.
+2. **Define Metrics**: Set up necessary custom metrics in the application.
+3. **Deploy & Monitor**: Launch EC2 instances and monitor logs and metrics in CloudWatch.
 
 ## Useful Commands
 
