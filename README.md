@@ -43,7 +43,13 @@ DB_DIALECT=<your_database_dialect>
 DB_PORT=<your_database_port>
 DB_NAME=<your_database_name>
 PORT=<application_port>
-ENV_TYPE='DEBIAN_VM' # Or 'GITHUB_CI' Or 'pulumi'   
+ENV_TYPE='DEBIAN_VM' # Or 'GITHUB_CI' Or 'pulumi'
+ASG_LAUNCH_CONFIG=<your_asg_launch_config>
+ASG_NAME=<your_asg_name>
+AWS_ACCESS_KEY_ID=<your_aws_access_key_id_dev>
+AWS_SECRET_ACCESS_KEY=<your_aws_secret_access_key_dev>
+AWS_ACCESS_KEY_ID_DEMO=<your_aws_access_key_id_demo>
+AWS_SECRET_ACCESS_KEY_DEMO=<your_aws_secret_access_key_demo>
 
 Install Dependencies 🔧
 `npm install`
