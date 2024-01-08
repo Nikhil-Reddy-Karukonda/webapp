@@ -76,6 +76,69 @@ In the `ami.pkr.hcl` file, the following default values are set for key variable
 - :hammer_and_wrench: **CI/CD Workflow**: EC2 Automation with GitHub Actions & HashiCorp Packer, **Integration**: GitHub Actions with HashiCorp Packer for custom AMIs, **Automation**: EC2 app auto-startup via systemD; configures web apps, DB servers, autorun in `/etc/systemd/system`, **Scaling**: Consistent Auto Scaling Group refreshes with updated AMIs.
 - :file_folder: **Reliable File Delivery System**: Reliable file delivery system for assignment submissions, automating GitHub release downloads to S3 via Lambda and SNS triggers, with streamlined user notifications and DynamoDB for enhanced tracking and auditability
 
+# Database Bootstrapping 🛠️🗃️
+
+This section outlines the process for automatic database bootstrapping at application startup.
+
+## Overview 📄
+
+- **Bootstrapping Process** 🚀: Automatically creates or updates the schema, tables, indexes, sequences, etc., based on the latest definitions.
+- **No Manual Setup** ❌📝: Avoid manual database setup using SQL scripts.
+
+## Recommended ORM Framework 🔄
+- **Node.js Applications** 🟢: Use [Sequelize](https://sequelize.org/).
+
+## Steps 🚶‍♂️
+
+1. **Integrate ORM Framework** ⚙️:
+   - For Node.js, install Sequelize using `npm install sequelize`.
+
+2. **Configure ORM** 🔧:
+   - Set up the ORM to connect to your database 🌐.
+   - Configure entity mappings to reflect your database schema 📐.
+
+3. **Enable Auto Bootstrapping** 🤖:
+   - In Sequelize, use the `sync()` method 🔄.
+
+4. **Start Your Application** 🚀:
+   - Run your application. The ORM framework will handle the bootstrapping automatically.
+
+## Note 📝
+- Ensure your database user has sufficient privileges for schema modification 🔑.
+
+## Conclusion 🎉
+By following these steps, your application will automatically bootstrap the database at startup, ensuring that your database schema is always in sync with your application model.
+
+# CI/CD for Web Application 🚀 using GitHub Actions.
+
+## Pull Request Raised Workflow 🔄
+
+1. **GitHub Action - Integration Tests** ✅: Automatically run Integration tests for each pull request.
+2. **Merge Condition** 🚧: Pull requests can be merged only if all tests pass successfully.
+
+## Pull Request Merged Workflow 🛠️
+
+Triggered upon merging a pull request:
+
+1. **Run Integration Tests** ✅: Validate code through integration testing to ensure system integrity.
+2. **Validate Packer Template** 📜: Confirm Packer configurations are correct.
+3. **Build Application Artifacts** 🏗️: Compile and package the application.
+4. **Build AMI** 🖥️:
+   - Upgrade OS packages 🔄.
+   - Install dependencies (e.g., Python, Node.js) 📦.
+   - Install application dependencies (`pip install` for Python) 🐍.
+   - Copy application artifacts and configuration files 🔧.
+   - Configure application auto-start on VM launch 🌟.
+5. **Update Launch Template with AMI ID** 🆕: For the autoscaling group.
+6. **Instance Refresh in Auto-scale Group** 🔄: Implement the latest changes in instances.
+
+## Notes 📝
+- Ensure correct workflow definitions in `.github/workflows`.
+- Test the AMI build process thoroughly before deployment.
+
+## Conclusion ✨
+This CI/CD setup ensures rigorous testing and reliable deployment of your web application, maintaining high code quality and operational efficiency.
+
 ## Web Application Features and Testing Instructions
 
 ## Application Traffic Source
@@ -89,11 +152,11 @@ In the `ami.pkr.hcl` file, the following default values are set for key variable
 
 ## Submission Features
 ![Submission](https://img.shields.io/badge/Submission-orange)
-### :airplane: **POST Requests**: Users can make POST requests for submission.
-### :page_facing_up: **Multiple Submissions**: Users can submit multiple times per assignment based on retries configuration.
-### :no_entry_sign: **Retries Limit**: After exceeding the number of attempts, requests will be rejected.
-### :calendar: **Due Date Enforcement**: Submissions are rejected if the assignment due date has passed.
-### :bell: **Notification**: Submits URL and user info (e.g., email address) to the SNS topic.
+#### :airplane: **POST Requests**: Users can make POST requests for submission.
+#### :page_facing_up: **Multiple Submissions**: Users can submit multiple times per assignment based on retries configuration.
+#### :no_entry_sign: **Retries Limit**: After exceeding the number of attempts, requests will be rejected.
+#### :calendar: **Due Date Enforcement**: Submissions are rejected if the assignment due date has passed.
+#### :bell: **Notification**: Submits URL and user info (e.g., email address) to the SNS topic.
 
 ## Health Check RESTful API
 
