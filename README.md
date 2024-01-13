@@ -5,7 +5,22 @@
 ![AWS](https://img.shields.io/badge/AWS-Cloud%20Computing-orange) ![Node.js](https://img.shields.io/badge/Node.js-Backend-blue) ![Pulumi](https://img.shields.io/badge/IAC-Pulumi-green) ![CI/CD](https://img.shields.io/badge/GitHub%20Actions-CI%2FCD-yellowgreen) ![Serverless](https://img.shields.io/badge/Serverless-Architecture-blue)
 
 ## Overview
-The Assignments Tracker is an application designed for streamlined assignment submissions. It emphasizes a secure, reliable, scalable, and highly available architecture on AWS, offering optimal performance for educational institutions and learners.
+The Assignments Tracker is an application designed for streamlined assignment submissions. A Secure, Scalable, and Automated Solution empowering educational institutions and learners with a reliable, highly available AWS-based assignment tracking and management solution.
+
+## Workflow
+
+1. **Assignment Submission** :inbox_tray: 
+   - Upon submission, a message payload is published to an SNS Topic.
+
+2. **SNS Topic Trigger** :bell: 
+   - This triggers a Lambda function.
+
+3. **Lambda Function Activities** :zap: 
+   - **Downloading ZIP File**: The Lambda function downloads a ZIP file from the provided Payload URL.
+   - **Uploading to S3**: The content is then uploaded to S3, maintaining a specific folder structure.
+   - **Email Notification**: Depending on the success or failure of the submission, an email notification is sent to the user.
+   - **DynamoDB Tracking**: For enhanced tracking and auditability, submission details are logged in a DynamoDB table.
+
 
 ### Repositories
 - Web Application: [GitHub - Webapp](https://github.com/Nikhil-Reddy-Karukonda/webapp)
@@ -22,6 +37,7 @@ Before building and deploying the application, ensure you have the following pre
 - AWS Account and CLI setup, Debian 12 OS
 - Node.js and npm installed
 - PostgreSQL installed
+- Postman - API testing
 
 ### Installation
 
